@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
 function createWindow () {
@@ -10,7 +10,7 @@ function createWindow () {
     }
   })
   win.loadFile('src/index.html')
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 
   return win
 }
@@ -24,7 +24,15 @@ function createAnotherWindow (parent) {
   win.loadFile('src/index.html')
   win.webContents.openDevTools()
 }
+
+
+function handleSetTitle (event, title) {
+  const webContents = event.sender
+  const win = BrowserWindow.fromWebContents(webContents)
+  win.setTitle(title)
+}
 app.on('ready', () => {
+  ipcMain.on('set-title', handleSetTitle)
   createWindow()
 
 })
