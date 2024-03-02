@@ -1,10 +1,13 @@
 const { app, BrowserWindow } = require('electron')
-
+const path = require('path')
 
 function createWindow () {
   const win = new BrowserWindow({
     width: 850,
-    height: 600
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
   })
   win.loadFile('src/index.html')
   win.webContents.openDevTools()
@@ -22,6 +25,6 @@ function createAnotherWindow (parent) {
   win.webContents.openDevTools()
 }
 app.on('ready', () => {
-  const parent = createWindow()
-  createAnotherWindow(parent)
+  createWindow()
+
 })
