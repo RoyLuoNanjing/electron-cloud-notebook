@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const fs = require('fs')
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -31,8 +32,18 @@ function handleSetTitle (event, title) {
   const win = BrowserWindow.fromWebContents(webContents)
   win.setTitle(title)
 }
+
+async function handleWriteFile (event, content) {
+  console.log('the content', content)
+  await fs.promises.writeFile('test.txt', content)
+  const stats = await fs.promises.stat('test.txt')
+  return stats.size
+}
+
+
 app.on('ready', () => {
   ipcMain.on('set-title', handleSetTitle)
+  ipcMain.handle('write-file', handleWriteFile)
   createWindow()
 
 })
