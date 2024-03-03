@@ -44,6 +44,12 @@ async function handleWriteFile (event, content) {
 app.on('ready', () => {
   ipcMain.on('set-title', handleSetTitle)
   ipcMain.handle('write-file', handleWriteFile)
-  createWindow()
+  let counter = 1
+  const win = createWindow()
+
+  setInterval(() => {
+    counter += 3
+    win.webContents.send('update-counter', counter)
+  }, 3000)
 
 })

@@ -8,6 +8,7 @@ const titleInput = document.getElementById('title')
 
 const btn2 = document.getElementById('btn2')
 const contentInput = document.getElementById('content')
+const counter = document.getElementById('counter')
 
 btn.addEventListener('click', () => {
   const title = titleInput.value
@@ -18,4 +19,8 @@ btn2.addEventListener('click', async () => {
   const content = contentInput.value
   const len = await window.electron.writeFile(content)
   info.innerHTML = `File size : ${len}`
+})
+
+window.electron.onUpdateCounter((value) => {
+  counter.innerText = value.toString()
 })
