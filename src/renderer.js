@@ -1,3 +1,4 @@
+const fs = window.require('fs')
 
 const info = document.getElementById('info')
 info.innerHTML = `Chrome (v${window.versions.chrome}), Node.js (v${window.versions.node})`
@@ -19,6 +20,8 @@ btn2.addEventListener('click', async () => {
   const content = contentInput.value
   const len = await window.electron.writeFile(content)
   info.innerHTML = `File size : ${len}`
+  const c = await fs.promises.readFile('test.txt', { encoding: 'utf-8' })
+  info.innerHTML += `File Content : ${c}`
 })
 
 window.electron.onUpdateCounter((value) => {
