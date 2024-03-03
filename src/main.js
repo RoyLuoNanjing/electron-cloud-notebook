@@ -1,6 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
+const remote = require('@electron/remote/main')
+
 const path = require('path')
 const fs = require('fs')
+remote.initialize()
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -47,6 +50,7 @@ app.on('ready', () => {
   ipcMain.handle('write-file', handleWriteFile)
   let counter = 1
   const win = createWindow()
+  remote.enable(win.webContents)
 
   setInterval(() => {
     counter += 3

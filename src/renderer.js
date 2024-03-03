@@ -1,4 +1,5 @@
 const fs = window.require('fs')
+const { dialog } = window.require('@electron/remote')
 
 const info = document.getElementById('info')
 info.innerHTML = `Chrome (v${window.versions.chrome}), Node.js (v${window.versions.node})`
@@ -14,6 +15,7 @@ const counter = document.getElementById('counter')
 btn.addEventListener('click', () => {
   const title = titleInput.value
   window.electron.setTitle(title)
+  dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] })
 })
 
 btn2.addEventListener('click', async () => {
